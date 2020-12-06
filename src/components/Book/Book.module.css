@@ -2,3 +2,10 @@
 	border: 1px solid lightgrey;
 	font-size: 12px !important;
 }
+.crtBook {
+	border: 1px solid lightgray;
+    border-radius: 5px;
+}
+.marginR {
+	margin-right: 5px;
+}

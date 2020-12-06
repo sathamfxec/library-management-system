@@ -233,7 +233,7 @@ button {
 /* mischellaneous
 ================= */
 .defaultFS {
-	font-size: 12px;
+	font-size: 12px !important;
 }
 .left {
 	float: left;
@@ -280,7 +280,6 @@ button {
 .marginTZero {
 	margin-top: 0;
 }
-
 .paddingZero {
 	padding: 0;
 }
@@ -296,11 +295,15 @@ button {
 .paddingTZero {
 	padding-top: 0;
 }
-
+.mandatory, .error {
+	color: red;
+}
+.success {
+	color: green;
+}
 header nav ul li {
 	padding-left: 10px;
 }
-
 section .container {
 	position: relative;
     left: 16.66%;

@@ -1,25 +1,25 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styles from './Header.module.css';
 import {useHistory} from 'react-router-dom';
 import {connect} from 'react-redux';
 import updateMovies from './../../store/actions/actionLogin';
+import appConfig from './../../appConfig';
 
 const Header = (props) => {
-	const storageVal = JSON.parse(localStorage.getItem('userInfo'));
+	// const storageVal = JSON.parse(localStorage.getItem('userInfo'));
 	const isAuth = JSON.parse(localStorage.getItem('isAuth'));
 	// console.log(props.isAuth);
 	const history = useHistory();
 	const logout = () => {
-		localStorage.removeItem('userInfo');
-		localStorage.removeItem('isAuth');
+		for(let k of appConfig.clearStorage) {
+			localStorage.removeItem(k);
+		}
 		props.updateMovies();
 		history.push({
 			pathname: '/login'
 		});
 	};
 	return (<React.Fragment>
-		<header className="flex-ai">
+		<header className="flex-ai" data-testid="Header">
 			<nav className="col-sm-12">
 				<ul className="flex-sb">
 				  <li>

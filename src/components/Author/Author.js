@@ -8,8 +8,4 @@ const Author = () => (
   </div>
 );
 
-Author.propTypes = {};
-
-Author.defaultProps = {};
-
 export default Author;

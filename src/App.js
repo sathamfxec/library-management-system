@@ -1,9 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
-import appConfig from './appConfig';
 import services from './services/services'
 import {connect} from 'react-redux';
 import updateMovies from './store/actions/actionLogin';
@@ -17,41 +15,48 @@ class App extends React.Component {
       userType: 'admin'
     };
   }
+  /*
+    Method to submit login form
+  */
   submitForm = (event) => {
     event.preventDefault();
-    console.log(this.state);
     if(this.state.userType === 'admin' && this.state.uname === 'admin' && this.state.pwd === 'admin') {
       localStorage.setItem('userInfo', JSON.stringify(this.state));
       localStorage.setItem('isAuth', true);
-      this.props.updateMovies();
-      this.props.history.push("/book");
+      axios.all([services.getAuthors(), services.getPublishers()])
+        .then(axios.spread((...response) => {
+          localStorage.setItem('authors', JSON.stringify(response[0].data.authors));
+          localStorage.setItem('publishers', JSON.stringify(response[1].data.publishers));
+          this.props.updateMovies();
+          this.props.history.push("/book");
+      }));
     } else {
       console.log('Non Admin');
     }
   }
+  /*
+    Method to change the user type
+  */
   userType = (event, data) => {
     event.preventDefault();
     this.setState({
       userType: data
     });
   }
+  /*
+    Method to handle the login form values
+  */
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value
     });
   }
-  componentDidMount() {
-    axios.all([services.getAuthors(), services.getPublishers()])
-      .then(axios.spread((...response) => {
-        console.log(response);
-    }));
-  }
   render() {
     // console.log(this.props.isAuth);
     return (<React.Fragment>
-      <div className="col-sm-12 flex-ai">
+      <div className="col-sm-12 flex-ai" data-testid="App">
         <div className="col-sm-6">
-          <img className="lmsImage" src="assets/1_2LbaxRdkpqJsx_jPRtcLng.jpeg" />
+          <img className="lmsImage" src="assets/1_2LbaxRdkpqJsx_jPRtcLng.jpeg" alt="No image"/>
         </div>
         <div className="col-sm-6">
           <form className="flex-jc" onSubmit={this.submitForm}>

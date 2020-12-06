@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styles from './Dashboard.module.css';
+// import PropTypes from 'prop-types';
+// import styles from './Dashboard.module.css';
 import {connect} from 'react-redux';
 
 class Dashboard extends React.Component {
@@ -11,7 +11,7 @@ class Dashboard extends React.Component {
 	render() {
 		console.log(this.props.isAuth);
 		return (<React.Fragment>
-	      <div className="col-sm-12">
+	      <div className="col-sm-12" data-testid="Dashboard">
 	        <div className="col-sm-6">Hello Dashboard</div>
 	        <div className="col-sm-6">Hello Dashboard</div>
 	      </div>
@@ -19,9 +19,9 @@ class Dashboard extends React.Component {
 	}
 }
 
-Dashboard.propTypes = {};
+// Dashboard.propTypes = {};
 
-Dashboard.defaultProps = {};
+// Dashboard.defaultProps = {};
 
 const MapStateToProps = (state) => {
   return {
