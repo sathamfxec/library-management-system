@@ -5,12 +5,13 @@ import axios from 'axios';
 import services from './services/services'
 import {connect} from 'react-redux';
 import updateMovies from './store/actions/actionLogin';
+import appConfig from './appConfig';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      uname: '',
+      email: '',
       pwd: '',
       userType: 'admin'
     };
@@ -20,18 +21,24 @@ class App extends React.Component {
   */
   submitForm = (event) => {
     event.preventDefault();
-    if(this.state.userType === 'admin' && this.state.uname === 'admin' && this.state.pwd === 'admin') {
-      localStorage.setItem('userInfo', JSON.stringify(this.state));
-      localStorage.setItem('isAuth', true);
-      axios.all([services.getAuthors(), services.getPublishers()])
+    if(this.state.email !== '' && this.state.pwd !== '') {
+      axios.post(appConfig.httpUrl + appConfig.loginApi.post, this.state)
+      .then(response => {
+        localStorage.setItem('userInfo', JSON.stringify(this.state));
+        localStorage.setItem('isAuth', true);
+        axios.all([services.getAuthors(), services.getPublishers()])
         .then(axios.spread((...response) => {
-          localStorage.setItem('authors', JSON.stringify(response[0].data.authors));
-          localStorage.setItem('publishers', JSON.stringify(response[1].data.publishers));
+          localStorage.setItem('authors', JSON.stringify(response[0].data.data));
+          localStorage.setItem('publishers', JSON.stringify(response[1].data.data));
           this.props.updateMovies();
           this.props.history.push("/book");
-      }));
+        }));
+      })
+      .catch(error => {
+        console.log(error);
+      });
     } else {
-      console.log('Non Admin');
+      console.log('Fill all fields');
     }
   }
   /*
@@ -63,11 +70,11 @@ class App extends React.Component {
             <div className="loginDiv">
               {this.state.userType === 'admin' ? 
               <div className="form-group adminCredential">
-                <label>Admin Credential (admin/admin)</label>
+                <label>Admin Credential (admin@gmail.com/admin)</label>
               </div> : '' }
               <div className="form-group">
-                <label htmlFor="uname">User Name</label>
-                <input id="uname" name="uname" className="form-control" type="text" value={this.state.uname} onChange={this.handleChange}/>
+                <label htmlFor="email">User Name</label>
+                <input id="email" name="email" className="form-control" type="text" value={this.state.email} onChange={this.handleChange}/>
               </div>
               <div className="form-group">
                 <label htmlFor="pwd">Password</label>

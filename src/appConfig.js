@@ -31,6 +31,9 @@ const appConfig = {
 		post: '/createUser',
 		put: '/updateUser',
 		delete: '/deleteUser'
+	},
+	loginApi: {
+		post: '/login'
 	}
 }
 

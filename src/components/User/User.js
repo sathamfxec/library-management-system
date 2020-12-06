@@ -20,7 +20,6 @@ class User extends React.Component {
 				text: ''
 			}
 		};
-
 	}
 	/*
     	Method to submit login form
@@ -101,8 +100,9 @@ class User extends React.Component {
     	Method to handle the user form values
   	*/
 	handleChange = (event) => {
+		let val = (event.target.name === 'email') ? event.target.value.trim() : event.target.value;
 		this.setState({
-		  [event.target.name]: event.target.value
+		  [event.target.name]: val
 		});
 	}
 	/*
@@ -124,7 +124,6 @@ class User extends React.Component {
 	componentDidMount() {
 		services.getUsers()
 		.then(result => {
-			const userList = result.data.data;
 			this.setState({
 				userList: result.data.data
 			});
@@ -174,15 +173,15 @@ class User extends React.Component {
 						<form onSubmit={this.submitForm}>
 							<div className="form-group">
 								<label htmlFor="name">User Name <span className="mandatory">*</span></label>
-								<input id="name" name="name" className="form-control defaultFS" type="text" value={this.state.name} onChange={this.handleChange}/>
+								<input id="name" name="name" className="form-control defaultFS" type="text" value={this.state.name} onChange={this.handleChange} />
 							</div>
 							<div className="form-group">
 								<label htmlFor="email">Email <span className="mandatory">*</span></label>
-								<input id="email" name="email" className="form-control defaultFS" type="text" value={this.state.email} onChange={this.handleChange} disabled/>
+								<input id="email" name="email" className="form-control defaultFS" type="text" value={this.state.email} onChange={this.handleChange} disabled={this.state.update} />
 							</div>
 							<div className="form-group">
 								<label htmlFor="pwd">Password <span className="mandatory">*</span></label>
-								<input id="pwd" name="pwd" className="form-control defaultFS" type="password" value={this.state.pwd} onChange={this.handleChange}/>
+								<input id="pwd" name="pwd" className="form-control defaultFS" type="password" value={this.state.pwd} onChange={this.handleChange} />
 							</div>
 							<div className="form-group flex-sb">
 								<button className="btn btn-info" type="button" onClick={this.clearState}>Clear</button>
