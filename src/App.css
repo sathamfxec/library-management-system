@@ -36,3 +36,22 @@
     transform: rotate(360deg);
   }
 }
+.loginDiv {
+  position: relative;
+  padding: 10px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+}
+/*.loginDiv .form-group input {
+  font-size: 12px;
+}*/
+.lmsImage {
+  width: 500px;
+  height: auto;
+}
+.adminCredential {
+  color: green;
+}
+.hLink {
+  cursor: pointer;
+}
