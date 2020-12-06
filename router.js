@@ -44,18 +44,22 @@ const authors = [
 	{
 		id: 1,
 		name: 'Satham',
+		type: 'author'
 	},
 	{
 		id: 2,
 		name: 'Karunakaran',
+		type: 'author'
 	},
 	{
 		id: 2,
 		name: 'Sathish Rajan',
+		type: 'author'
 	},
 	{
 		id: 2,
 		name: 'Vinoth Kumar',
+		type: 'author'
 	},
 ];
 
@@ -63,18 +67,22 @@ const publishers = [
 	{
 		id: 1,
 		name: 'Satham',
+		type: 'publisher'
 	},
 	{
 		id: 2,
 		name: 'Karunakaran',
+		type: 'publisher'
 	},
 	{
 		id: 2,
 		name: 'Sathish Rajan',
+		type: 'publisher'
 	},
 	{
 		id: 2,
 		name: 'Vinoth Kumar',
+		type: 'publisher'
 	},
 ];
 
@@ -116,7 +124,7 @@ router.get('/books', function(req, res) {
 /*Authors API Start*/
 router.get('/authors', function(req, res) {
 	res.status(200).send({
-		data: authors
+		authors: authors
 	});
 });
 /*Authors API End*/
@@ -124,7 +132,7 @@ router.get('/authors', function(req, res) {
 /*Publishers API Start*/
 router.get('/publishers', function(req, res) {
 	res.status(200).send({
-		data: publishers
+		publishers: publishers
 	});
 });
 /*Publishers API End*/

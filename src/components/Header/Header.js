@@ -8,7 +8,7 @@ import updateMovies from './../../store/actions/actionLogin';
 const Header = (props) => {
 	const storageVal = JSON.parse(localStorage.getItem('userInfo'));
 	const isAuth = JSON.parse(localStorage.getItem('isAuth'));
-	console.log(props.isAuth);
+	// console.log(props.isAuth);
 	const history = useHistory();
 	const logout = () => {
 		localStorage.removeItem('userInfo');

@@ -2,6 +2,9 @@ import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
+import appConfig from './appConfig';
+import services from './services/services'
 import {connect} from 'react-redux';
 import updateMovies from './store/actions/actionLogin';
 
@@ -37,8 +40,14 @@ class App extends React.Component {
       [event.target.name]: event.target.value
     });
   }
+  componentDidMount() {
+    axios.all([services.getAuthors(), services.getPublishers()])
+      .then(axios.spread((...response) => {
+        console.log(response);
+    }));
+  }
   render() {
-    console.log(this.props.isAuth);
+    // console.log(this.props.isAuth);
     return (<React.Fragment>
       <div className="col-sm-12 flex-ai">
         <div className="col-sm-6">

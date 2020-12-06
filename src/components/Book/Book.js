@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './Book.module.css';
 import Sidebar from './../Sidebar/Sidebar';
 import axios from 'axios';
+import services from './../../services/services'
 import appConfig from './../../appConfig';
 
 class Book extends React.Component {
@@ -13,7 +14,7 @@ class Book extends React.Component {
 		};
 	}
 	componentDidMount() {
-		axios.get(appConfig.httpUrl + appConfig.booksApi.get)
+		services.getBooks()
 		.then(result => {
 			console.log(result);
 			this.setState({
@@ -57,9 +58,5 @@ class Book extends React.Component {
 		</React.Fragment>);
 	}
 }
-
-Book.propTypes = {};
-
-Book.defaultProps = {};
 
 export default Book;
