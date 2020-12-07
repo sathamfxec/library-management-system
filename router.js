@@ -199,12 +199,12 @@ router.post('/lendbook', function(req, res) {
 		res.status(200).send({
 			id: Math.floor(Math.random() * 1000),
 			lendedBookList: lendedBooks,
-			message: 'Requested added successfully.'
+			message: 'Request added successfully.'
 		});
 	} else {
 		res.status(200).send({
 			id: 0,
-			message: 'Already request created for this book.'
+			message: 'Duplicate request.'
 		});
 	}
 });
@@ -223,6 +223,66 @@ router.delete('/deleterequest/:id', function(req, res) {
 			id: req.params.id,
 			lendedBookList: lendedBooks,
 			message: 'Request deleted successfully.'
+		});
+	} else {
+		res.status(200).send({
+			id: 0,
+			message: 'Something went wrong please check it.'
+		});
+	}
+});
+
+//API - To approve the lend request
+router.put('/approve-lend-request', function(req, res) {
+	let Flg = false;
+	lendedBooks.filter((val, index, array) => {
+		if(req.body.recId == val.recId) {
+			val.isApproved = true;
+			lendedBooks.splice(index,1,val);
+			Flg = true;
+		}
+	});
+	booksTable.filter((val, index, arrat) => {
+		if(req.body.id == val.id) {
+			val.lend = true;
+			booksTable.splice(index,1,val);
+		}
+	});
+	if(Flg === true) {
+		res.status(200).send({
+			id: req.params.id,
+			lendedBookList: lendedBooks,
+			message: 'Updated successfully.'
+		});
+	} else {
+		res.status(200).send({
+			id: 0,
+			message: 'Something went wrong please check it.'
+		});
+	}
+});
+
+//API - To reject the book lend request
+router.put('/reject-lend-request', function(req, res) {
+	let Flg = false;
+	lendedBooks.filter((val, index, array) => {
+		if(req.body.recId == val.recId) {
+			val.isApproved = false;
+			lendedBooks.splice(index,1,val);
+			Flg = true;
+		}
+	});
+	booksTable.filter((val, index, arrat) => {
+		if(req.body.id == val.id) {
+			val.lend = false;
+			booksTable.splice(index,1,val);
+		}
+	});
+	if(Flg === true) {
+		res.status(200).send({
+			id: req.params.id,
+			lendedBookList: lendedBooks,
+			message: 'Updated successfully.'
 		});
 	} else {
 		res.status(200).send({

@@ -133,10 +133,14 @@ class Author extends React.Component {
 		});
 	}
 	render() {
+		const userInfo = services.getUserInfo();
 		return(<React.Fragment>
 			<Sidebar />
 			<div className="container" data-testid="Author">
 				<div className="row">
+					<div className="col-sm-12">
+						<label className="col-sm-12 welcome">Welcome {userInfo.name}</label>
+					</div>
 					<div className="col-sm-12 flex-sb">
 						<h3 className="col-sm-6">Authors</h3>
 						{this.state.message.class !== '' ?

@@ -34,7 +34,7 @@ class App extends React.Component {
           this.props.updateMovies();
           (userType.userType === 'admin') 
           ? this.props.history.push("/book") 
-          : this.props.history.push("/lended-books");
+          : this.props.history.push("/book-request");
         }));
       })
       .catch(error => {

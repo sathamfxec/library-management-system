@@ -10,7 +10,7 @@ import Publisher from './components/Publisher/Publisher';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import BookRequest from './components/BookRequest/BookRequest';
-import LendedBooks from './components/LendedBooks/LendedBooks';
+import RequestForApproval from './components/RequestForApproval/RequestForApproval';
 import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import store from './store/index';
 import {Provider} from 'react-redux';
@@ -27,7 +27,7 @@ ReactDOM.render(<Provider store={store}>
 				<Route path = "/authors" component = {Author} />
 				<Route path = "/publishers" component = {Publisher} />
 				<Route path = "/book-request" component = {BookRequest} />
-				<Route path = "/lended-books" component = {LendedBooks} />
+				<Route path = "/request-for-approval" component = {RequestForApproval} />
 			</section>
 		<Footer />
 	</Router>

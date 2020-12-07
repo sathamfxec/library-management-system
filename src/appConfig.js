@@ -41,6 +41,10 @@ const appConfig = {
 		post: '/lendbook',
 		delete: '/deleterequest'
 	},
+	adminApprovalApi: {
+		approve: '/approve-lend-request',
+		reject: '/reject-lend-request'
+	}
 }
 
 export default appConfig;

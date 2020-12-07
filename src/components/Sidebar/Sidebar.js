@@ -25,13 +25,13 @@ const Sidebar = (props) => {
 		  		<li className={(location.pathname === '/publishers' ? styles.active : styles.li)}>
 		  			<Link to="/publishers" className={(location.pathname === '/publishers' ? styles.colorWhite : '')}>Publishers</Link>
 		  		</li>
+		  		<li className={(location.pathname === '/request-for-approval' ? styles.active : styles.li)}>
+		  			<Link to="/request-for-approval" className={(location.pathname === '/request-for-approval' ? styles.colorWhite : '')}>Request for approval</Link>
+		  		</li>
 	  		</ul> : 
 	  		 <ul className={styles.lists}>
 	  		 	<li className={(location.pathname === '/book-request' ? styles.active : styles.li)}>
 		  			<Link to="/book-request" className={(location.pathname === '/book-request' ? styles.colorWhite : '')}>Book Request</Link>
-		  		</li>
-		  		<li className={(location.pathname === '/lended-books' ? styles.active : styles.li)}>
-		  			<Link to="/lended-books" className={(location.pathname === '/lended-books' ? styles.colorWhite : '')}>Lended Books</Link>
 		  		</li>
 		  	</ul>}
 	  </aside>

@@ -1,16 +1,15 @@
 import React from 'react';
 import axios from 'axios';
-import styles from './BookRequest.module.css';
+import styles from './RequestForApproval.module.css';
 import services from './../../services/services';
 import Sidebar from './../Sidebar/Sidebar';
 import appConfig from './../../appConfig';
 
-class BookRequest extends React.Component {
+class RequestForApproval extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			lendedBookList: [],
-			bookList: [],
 			message: {
 				class: '',
 				text: ''
@@ -29,23 +28,19 @@ class BookRequest extends React.Component {
 		});
   	}
   	/*
-		Method to lend the book
+		Method to approve the lend request
 	*/
-	lendBook = (book) => {
-		let body = Object.assign({}, book, {
-			recId: new Date().getUTCMilliseconds(),
-			lenderId: services.getUserInfo().id,
-			isApproved: false
-		});
-		delete body.lend;
-		let URL = axios.post(appConfig.httpUrl + appConfig.bookRequestApi.post, body)
+	approve = (req) => {
+		console.log(req);
+		let URL = axios.put(appConfig.httpUrl + appConfig.adminApprovalApi.approve, req)
 		this.apiResponse(URL);
 	}
 	/*
-		Method to delete the lend request
+		Method to reject the lend request
 	*/
-	withDrawRequest = (req) => {
-		let URL = axios.delete(appConfig.httpUrl + appConfig.bookRequestApi.delete + '/' + req.recId)
+	reject = (req) => {
+		console.log(req);
+		let URL = axios.put(appConfig.httpUrl + appConfig.adminApprovalApi.reject, req)
 		this.apiResponse(URL);
 	}
 	/*
@@ -88,36 +83,35 @@ class BookRequest extends React.Component {
 			}, 500);
 		});
 	}
-  	componentDidMount() {
-  		axios.all([services.getLendedBooks(), services.getNonLendedBooks()])
-		.then(axios.spread((...response) => {
+	componentDidMount() {
+  		services.getLendedBooks()
+		.then(response => {
 			this.setState({
-				lendedBookList: response[0].data.lended,
-				bookList: response[1].data.nonLended
+				lendedBookList: response.data.lended
 			});
-		}));
+		})
+		.catch(error => {
+			console.log(error);
+		});
 	}
-  	render() {
+	render() {
   		const userInfo = services.getUserInfo();
   		return (<React.Fragment>
   			<Sidebar />
-			<div className="container" data-testid="BookRequest">
+			<div className="container" data-testid="RequestForApproval">
 				<div className="row">
 					<div className="col-sm-12">
 						<label className="col-sm-12 welcome">Welcome to LMS portal {userInfo.name}</label>
 					</div>
 					<div className="col-sm-12 flex-sb">
-						<h3 className="col-sm-7">Your Request</h3>
-						<div className="col-sm-5 flex-sb">
-							<h3 className="col-sm-6">
-								List of books
-							</h3>
-							{this.state.message.class !== '' ?
-								<div className="form-group col-sm-6 txtRight marginBZero">
-		            				<label className={this.state.message.class}>{this.state.message.text}</label>
-		          				</div>
-	          				: ''}
-						</div>
+						<h3 className="col-sm-6">
+							Request for approval
+						</h3>
+						{this.state.message.class !== '' ?
+							<div className="form-group col-sm-6 txtRight marginBZero">
+	            				<label className={this.state.message.class}>{this.state.message.text}</label>
+	          				</div>
+          				: ''}
 					</div>
 					<div className="col-sm-12 flex-sb">
 						<div className="col-sm-7">
@@ -142,46 +136,20 @@ class BookRequest extends React.Component {
 								        <td>{lend.publisher}</td>
 								        {lend.isApproved === false ?
 								        <td>
-								        	<button className={`${styles.marginR} ${'btn btn-danger'}`} onClick={() => this.withDrawRequest(lend)}>Withdraw Request</button>
+								        	<button className={`${styles.marginR} ${'btn btn-danger'}`} onClick={() => this.approve(lend)}>Approve</button>
 								        </td> : <td>
-								        	<label className="success">Admin Approved</label>
+								        	<button className={`${styles.marginR} ${'btn btn-danger'}`} onClick={() => this.reject(lend)}>Reject</button>
 								        </td>}
 								      </tr>);
 							      	})}
 							    </tbody>					
 							</table>
 						</div>
-						<div className="col-sm-5">
-							<table className={`${styles.table} ${"table"}`}>
-							    <thead>
-							      <tr>
-							        <th>Book Name</th>
-							        <th>Book Catgory</th>
-							        <th>Author</th>
-							        <th>Action</th>
-							      </tr>
-							    </thead>
-							    <tbody>
-							      {this.state.bookList.length === 0 ?
-							      	<tr><td colSpan="4" className={'txtCenter'}>No records found</td></tr> : 
-							      	this.state.bookList.map(book => {
-							      	return (<tr key={Math.random()}>
-								        <td>{book.bookName}</td>
-								        <td>{book.bookCategory}</td>
-								        <td>{book.author}</td>
-								        <td>
-								        	<button className={`${styles.marginR} ${'btn btn-info'}`} onClick={() => this.lendBook(book)}>Lend</button>
-								        </td>
-								      </tr>);
-							      })}
-							    </tbody>
-							</table>
-						</div>
 					</div>
 				</div>
 			</div>
-  		</React.Fragment>);
-  	}
-}
+		</React.Fragment>);
+	}
+ }
 
-export default BookRequest;
+export default RequestForApproval;

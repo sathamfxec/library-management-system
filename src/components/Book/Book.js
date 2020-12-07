@@ -155,10 +155,14 @@ class Book extends React.Component {
 	render() {
 		const authors = JSON.parse(localStorage.getItem('authors'));
 		const publishers = JSON.parse(localStorage.getItem('publishers'));
+		const userInfo = services.getUserInfo();
 		return (<React.Fragment>
 			<Sidebar />
 			<div className="container" data-testid="Book"> 
 				<div className="row">
+					<div className="col-sm-12">
+						<label className="col-sm-12 welcome">Welcome {userInfo.name}</label>
+					</div>
 					<div className="col-sm-12 flex-sb">
 						<h3 className="col-sm-6">Books</h3>
 						{this.state.message.class !== '' ?

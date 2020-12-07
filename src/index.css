@@ -301,6 +301,11 @@ button {
 .success {
 	color: green;
 }
+.welcome {
+	color: darkgreen;
+    font-weight: bold;
+    font-size: 13px;
+}
 header nav ul li {
 	padding-left: 10px;
 }
