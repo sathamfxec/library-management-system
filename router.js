@@ -18,6 +18,7 @@ const booksTable = [
 		authorId: 1,
 		publisher: 'Satham',
 		publisherId: 1,
+		lend: false
 	},
 	{
 		id: 1002,
@@ -27,6 +28,7 @@ const booksTable = [
 		authorId: 2,
 		publisher: 'Karunakaran',
 		publisherId: 2,
+		lend: false
 	},
 	{
 		id: 1003,
@@ -36,7 +38,7 @@ const booksTable = [
 		authorId: 3,
 		publisher: 'Sathish Rajan',
 		publisherId: 3,
-
+		lend: false
 	},
 	{
 		id: 1004,
@@ -46,30 +48,31 @@ const booksTable = [
 		authorId: 4,
 		publisher: 'Vinoth Kumar',
 		publisherId: 4,
+		lend: false
 	}
 ];
 
 const authorsTable = [
 	{
-		id: 1001,
+		id: 2001,
 		name: 'Satham',
 		email: 'satham@gmail.com',
 		type: 'author'
 	},
 	{
-		id: 1002,
+		id: 2002,
 		name: 'Karunakaran',
 		email: 'karuna@gmail.com',
 		type: 'author'
 	},
 	{
-		id: 1003,
+		id: 2003,
 		name: 'Sathish Rajan',
 		email: 'sathish@gmail.com',
 		type: 'author'
 	},
 	{
-		id: 1004,
+		id: 2004,
 		name: 'Vinoth Kumar',
 		email: 'vinoth@gmail.com',
 		type: 'author'
@@ -78,25 +81,25 @@ const authorsTable = [
 
 const publishersTable = [
 	{
-		id: 1001,
+		id: 3001,
 		name: 'Satham',
 		email: 'satham@gmail.com',
 		type: 'publisher'
 	},
 	{
-		id: 1002,
+		id: 3002,
 		name: 'Karunakaran',
 		email: 'karuna@gmail.com',
 		type: 'publisher'
 	},
 	{
-		id: 1003,
+		id: 3003,
 		name: 'Sathish Rajan',
 		email: 'sathish@gmail.com',
 		type: 'publisher'
 	},
 	{
-		id: 1004,
+		id: 3004,
 		name: 'Vinoth Kumar',
 		email: 'vinoth@gmail.com',
 		type: 'publisher'
@@ -105,41 +108,43 @@ const publishersTable = [
 
 const usersTable = [
 	{
-		id: 1001,
+		id: 4001,
 		name: 'Satham',
 		email: 'satham@gmail.com',
 		pwd: 'user',
 		userType: 'user'
 	},
 	{
-		id: 1002,
+		id: 4002,
 		name: 'Karunakaran',
 		email: 'karuna@gmail.com',
 		pwd: 'user',
 		userType: 'user'
 	},
 	{
-		id: 1003,
+		id: 4003,
 		name: 'Sathish Rajan',
 		email: 'sathish@gmail.com',
 		pwd: 'user',
 		userType: 'user'
 	},
 	{
-		id: 1004,
+		id: 4004,
 		name: 'Vinoth Kumar',
 		email: 'vinoth@gmail.com',
 		pwd: 'user',
 		userType: 'user'
 	},
 	{
-		id: 1005,
+		id: 4005,
 		name: 'Admin',
 		email: 'admin@gmail.com',
 		pwd: 'admin',
 		userType: 'admin'
 	},
 ];
+
+const lendedBooks = [];
 
 /*--Login API Start--*/
 router.post('/login', function(req, res) {
@@ -165,6 +170,66 @@ router.get('/books', function(req, res) {
 	res.status(200).send({
 		data: booksTable
 	});
+});
+
+//API - To get all non lended books
+router.get('/non-lended-books', function(req, res) {
+	let nonLended = booksTable.filter(val => {
+		return val.lend === false;
+	});
+	res.status(200).send({
+		nonLended: nonLended
+	});
+});
+
+//API - To get all lended books
+router.get('/lended-books', function(req, res) {
+	res.status(200).send({
+		lended: lendedBooks
+	});
+});
+
+//API - To create the book lend request
+router.post('/lendbook', function(req, res) {
+	let chkDupliRec = lendedBooks.filter(val => {
+		return val.lenderId === req.body.lenderId && val.id === req.body.id
+	});
+	if(chkDupliRec.length === 0) {
+		lendedBooks.push(req.body);
+		res.status(200).send({
+			id: Math.floor(Math.random() * 1000),
+			lendedBookList: lendedBooks,
+			message: 'Requested added successfully.'
+		});
+	} else {
+		res.status(200).send({
+			id: 0,
+			message: 'Already request created for this book.'
+		});
+	}
+});
+
+//API - To delete the lend request
+router.delete('/deleterequest/:id', function(req, res) {
+	let delFlg = false;
+	lendedBooks.filter((val, index, array) => {
+		if(val.recId == req.params.id) {
+			lendedBooks.splice(index,1);
+			delFlg = true;
+		}
+	});
+	if(delFlg === true) {
+		res.status(200).send({
+			id: req.params.id,
+			lendedBookList: lendedBooks,
+			message: 'Request deleted successfully.'
+		});
+	} else {
+		res.status(200).send({
+			id: 0,
+			message: 'Something went wrong please check it.'
+		});
+	}
 });
 
 //API - To create the book

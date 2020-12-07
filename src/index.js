@@ -9,6 +9,8 @@ import Author from './components/Author/Author';
 import Publisher from './components/Publisher/Publisher';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import BookRequest from './components/BookRequest/BookRequest';
+import LendedBooks from './components/LendedBooks/LendedBooks';
 import { BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import store from './store/index';
 import {Provider} from 'react-redux';
@@ -24,6 +26,8 @@ ReactDOM.render(<Provider store={store}>
 				<Route path = "/users" component = {User} />
 				<Route path = "/authors" component = {Author} />
 				<Route path = "/publishers" component = {Publisher} />
+				<Route path = "/book-request" component = {BookRequest} />
+				<Route path = "/lended-books" component = {LendedBooks} />
 			</section>
 		<Footer />
 	</Router>

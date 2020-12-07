@@ -34,7 +34,13 @@ const appConfig = {
 	},
 	loginApi: {
 		post: '/login'
-	}
+	},
+	bookRequestApi: {
+		getLended: '/lended-books',
+		getNonLended: '/non-lended-books',
+		post: '/lendbook',
+		delete: '/deleterequest'
+	},
 }
 
 export default appConfig;

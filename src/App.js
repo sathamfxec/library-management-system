@@ -24,14 +24,17 @@ class App extends React.Component {
     if(this.state.email !== '' && this.state.pwd !== '') {
       axios.post(appConfig.httpUrl + appConfig.loginApi.post, this.state)
       .then(response => {
-        localStorage.setItem('userInfo', JSON.stringify(this.state));
+        let userType = response.data.data;
+        localStorage.setItem('userInfo', JSON.stringify(response.data.data));
         localStorage.setItem('isAuth', true);
         axios.all([services.getAuthors(), services.getPublishers()])
         .then(axios.spread((...response) => {
           localStorage.setItem('authors', JSON.stringify(response[0].data.data));
           localStorage.setItem('publishers', JSON.stringify(response[1].data.data));
           this.props.updateMovies();
-          this.props.history.push("/book");
+          (userType.userType === 'admin') 
+          ? this.props.history.push("/book") 
+          : this.props.history.push("/lended-books");
         }));
       })
       .catch(error => {

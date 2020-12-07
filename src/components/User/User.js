@@ -155,15 +155,15 @@ class User extends React.Component {
 						      </tr>
 						    </thead>
 						    <tbody>
-						      {this.state.userList.map(user => {
-						      	return (<tr key={Math.random()}>
+						      {this.state.userList.map(user => { 
+						      	return (user.userType !== 'admin' ? <tr key={Math.random()}>
 							        <td>{user.name}</td>
 							        <td>{user.email}</td>
 							        <td>
 							        	<button className={`${styles.marginR} ${'btn btn-info'}`} onClick={() => this.editUser(user)}>Edit</button>
 							        	<button className="btn btn-danger" onClick={() => this.deleteUser(user.id)}>Delete</button>
 							        </td>
-							      </tr>);
+							      </tr> : '');
 						      })}
 						    </tbody>
 						</table>
