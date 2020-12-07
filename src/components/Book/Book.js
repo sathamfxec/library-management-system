@@ -183,7 +183,9 @@ class Book extends React.Component {
 						      </tr>
 						    </thead>
 						    <tbody>
-						      {this.state.bookList.map(book => {
+						      {this.state.bookList.length === 0 ?
+							  <tr><td colSpan="5" className={'txtCenter'}>No records found</td></tr> : 
+						      this.state.bookList.map(book => {
 						      	return (<tr key={Math.random()}>
 							        <td>{book.bookName}</td>
 							        <td>{book.bookCategory}</td>

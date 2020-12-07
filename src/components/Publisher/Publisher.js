@@ -34,12 +34,25 @@ class Publisher extends React.Component {
 				}
 			});
 		} else {
-			let body = Object.assign({}, this.state);
-			delete body.publisherList;
-			let URL = (this.state.update === false) 
-			? axios.post(appConfig.httpUrl+appConfig.publishersApi.post, body)
-			: axios.put(appConfig.httpUrl+appConfig.publishersApi.put+ '/' + body.id, body);
-			this.apiResponse(URL);
+			const validateEmail = () => {
+				let pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+				return pattern.test(this.state.email);
+			}
+			if(validateEmail()) {
+				let body = Object.assign({}, this.state);
+				delete body.publisherList;
+				let URL = (this.state.update === false) 
+				? axios.post(appConfig.httpUrl+appConfig.publishersApi.post, body)
+				: axios.put(appConfig.httpUrl+appConfig.publishersApi.put+ '/' + body.id, body);
+				this.apiResponse(URL);
+			} else {
+				this.setState({
+					message: {
+					class: 'error',
+					text: 'Email not valid'
+					}
+				});
+			}
 		}
 	}
 	/*
@@ -159,7 +172,9 @@ class Publisher extends React.Component {
 						      </tr>
 						    </thead>
 						    <tbody>
-						      {this.state.publisherList.map(publisher => {
+						    {this.state.publisherList.length === 0 ?
+							  <tr><td colSpan="3" className={'txtCenter'}>No records found</td></tr> :
+						      this.state.publisherList.map(publisher => {
 						      	return (<tr key={Math.random()}>
 							        <td>{publisher.name}</td>
 							        <td>{publisher.email}</td>

@@ -15,9 +15,9 @@ const booksTable = [
 		bookName: 'Book 1',
 		bookCategory: 'Novel',
 		author: 'Satham',
-		authorId: 1,
+		authorId: 2001,
 		publisher: 'Satham',
-		publisherId: 1,
+		publisherId: 3001,
 		lend: false
 	},
 	{
@@ -25,9 +25,9 @@ const booksTable = [
 		bookName: 'Book 2',
 		bookCategory: 'Horror',
 		author: 'Karunakaran',
-		authorId: 2,
+		authorId: 2002,
 		publisher: 'Karunakaran',
-		publisherId: 2,
+		publisherId: 3002,
 		lend: false
 	},
 	{
@@ -35,9 +35,9 @@ const booksTable = [
 		bookName: 'Book 3',
 		bookCategory: 'Fantasy',
 		author: 'Sathish Rajan',
-		authorId: 3,
+		authorId: 2003,
 		publisher: 'Sathish Rajan',
-		publisherId: 3,
+		publisherId: 3003,
 		lend: false
 	},
 	{
@@ -45,9 +45,9 @@ const booksTable = [
 		bookName: 'Book 4',
 		bookCategory: 'Literary',
 		author: 'Vinoth Kumar',
-		authorId: 4,
+		authorId: 2004,
 		publisher: 'Vinoth Kumar',
-		publisherId: 4,
+		publisherId: 3004,
 		lend: false
 	}
 ];
@@ -170,9 +170,10 @@ router.post('/login', function(req, res) {
 router.get('/dashboard-data', function(req, res) {
 	let dashboardData = {
 		books: booksTable.length,
-		users: usersTable.length,
+		users: usersTable.filter(val => val.userType !== 'admin').length,
 		authors: authorsTable.length,
-		publishers: publishersTable.length
+		publishers: publishersTable.length,
+		requests: lendedBooks.length
 	}
 	res.status(200).send({
 		dashboardData: dashboardData
@@ -341,22 +342,32 @@ router.post('/createBook', function(req, res) {
 //API - To update the book
 router.put('/updateBook/:id', function(req, res) {
 	let updFlg = false;
-	booksTable.filter((val, index, array) => {
-		if(val.id == req.params.id) {
-			booksTable.splice(index,1,req.body);
-			updFlg = true;
-		}
+	let chkDupliRec = booksTable.filter(val => {
+		return val.bookName === req.body.bookName && val.bookCategory === req.body.bookCategory && val.id != req.params.id;
 	});
-	if(updFlg === true) {
-		res.status(200).send({
-			id: req.params.id,
-			bookList: booksTable,
-			message: 'Book update successfully.'
+	if(chkDupliRec.length === 0) {
+		booksTable.filter((val, index, array) => {
+			if(val.id == req.params.id) {
+				booksTable.splice(index,1,req.body);
+				updFlg = true;
+			}
 		});
+		if(updFlg === true) {
+			res.status(200).send({
+				id: req.params.id,
+				bookList: booksTable,
+				message: 'Book update successfully.'
+			});
+		} else {
+			res.status(200).send({
+				id: 0,
+				message: 'Something went wrong please check it.'
+			});
+		}
 	} else {
 		res.status(200).send({
 			id: 0,
-			message: 'Something went wrong please check it.'
+			message: 'Book name already used.'
 		});
 	}
 });

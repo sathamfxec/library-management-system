@@ -235,6 +235,9 @@ button {
 .defaultFS {
 	font-size: 12px !important;
 }
+.fwB {
+	font-weight: bold;
+}
 .left {
 	float: left;
 }

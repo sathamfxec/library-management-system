@@ -34,12 +34,25 @@ class User extends React.Component {
 				}
 			});
 		} else {
-			let body = Object.assign({}, this.state);
-			delete body.userList;
-			let URL = (this.state.update === false) 
-			? axios.post(appConfig.httpUrl+appConfig.usersApi.post, body)
-			: axios.put(appConfig.httpUrl+appConfig.usersApi.put+ '/' + body.id, body);
-			this.apiResponse(URL);
+			const validateEmail = () => {
+				let pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+				return pattern.test(this.state.email);
+			}
+			if(validateEmail()) {
+				let body = Object.assign({}, this.state);
+				delete body.userList;
+				let URL = (this.state.update === false) 
+				? axios.post(appConfig.httpUrl+appConfig.usersApi.post, body)
+				: axios.put(appConfig.httpUrl+appConfig.usersApi.put+ '/' + body.id, body);
+				this.apiResponse(URL);
+			} else {
+				this.setState({
+					message: {
+					class: 'error',
+					text: 'Email not valid'
+					}
+				});
+			}
 		}
 	}
 	/*

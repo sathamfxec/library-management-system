@@ -20,7 +20,8 @@ ReactDOM.render(<Provider store={store}>
 	<Router>
 		<Header />
 			<section>
-				<Route exact path = "/login" component = {App} />
+				<Route exact path = "/" component = {App} />
+				<Route path = "/login" component = {App} />
 				<Route path = "/book" component = {Book} />
 				<Route path = "/dashboard" component = {Dashboard} />
 				<Route path = "/users" component = {User} />

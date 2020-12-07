@@ -32,41 +32,50 @@ class Dashboard extends React.Component {
 					<div className="col-sm-12">
 						<label className="col-sm-12 welcome">Welcome {userInfo.name}</label>
 					</div>
-					<div className="col-sm-12 flex-ai">
-						<div className={`${'col-sm-3'} ${styles.shadow} ${'flex-ai'}`}>
+					<div className="col-sm-12 flex-sb">
+						<div className={`${'col-sm-2'} ${styles.shadow} ${'flex-ai'}`}>
 							<div className="col-sm-6">
 								<img className={styles.logo} src="assets/Books-logo.png" alt="Books" />
 							</div>
-							<div className="col-sm-6 defaultFS txtCenter">
+							<div className="col-sm-6 defaultFS fwB txtCenter">
 								<div>{this.state.dashboardData.books}</div>
 								<div>Books</div>
 							</div>
 						</div>
-						<div className={`${'col-sm-3'} ${styles.shadow} ${'flex-ai'}`}>
+						<div className={`${'col-sm-2'} ${styles.shadow} ${'flex-ai'}`}>
 							<div className="col-sm-6">
 								<img className={styles.logo} src="assets/user.png" alt="Books" />
 							</div>
-							<div className="col-sm-6 defaultFS txtCenter">
+							<div className="col-sm-6 defaultFS fwB txtCenter">
 								<div>{this.state.dashboardData.users}</div>
 								<div>Users</div>
 							</div>
 						</div>
-						<div className={`${'col-sm-3'} ${styles.shadow} ${'flex-ai'}`}>
+						<div className={`${'col-sm-2'} ${styles.shadow} ${'flex-ai'}`}>
 							<div className="col-sm-6">
 								<img className={styles.logo} src="assets/user.png" alt="Books" />
 							</div>
-							<div className="col-sm-6 defaultFS txtCenter">
+							<div className="col-sm-6 defaultFS fwB txtCenter">
 								<div>{this.state.dashboardData.authors}</div>
 								<div>Authors</div>
 							</div>
 						</div>
-						<div className={`${'col-sm-3'} ${styles.shadow} ${'flex-ai'}`}>
+						<div className={`${'col-sm-2'} ${styles.shadow} ${'flex-ai'}`}>
 							<div className="col-sm-6">
 								<img className={styles.logo} src="assets/user.png" alt="Books" />
 							</div>
-							<div className="col-sm-6 defaultFS txtCenter">
+							<div className="col-sm-6 defaultFS fwB txtCenter">
 								<div>{this.state.dashboardData.publishers}</div>
 								<div>Publishers</div>
+							</div>
+						</div>
+						<div className={`${'col-sm-2'} ${styles.shadow} ${'flex-ai'}`}>
+							<div className="col-sm-6">
+								<img className={styles.logo} src="assets/request.png" alt="Books" />
+							</div>
+							<div className="col-sm-6 defaultFS fwB txtCenter">
+								<div>{this.state.dashboardData.requests}</div>
+								<div>Requests</div>
 							</div>
 						</div>
 					</div>
