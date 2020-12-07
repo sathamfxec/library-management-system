@@ -11,7 +11,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      email: 'admin@gmail.com',
       pwd: '',
       userType: 'admin'
     };
@@ -49,7 +49,9 @@ class App extends React.Component {
   */
   userType = (event, data) => {
     event.preventDefault();
+    let email = (data === 'admin') ? 'admin@gmail.com' : '';
     this.setState({
+      email: email,
       userType: data
     });
   }
@@ -77,7 +79,7 @@ class App extends React.Component {
               </div> : '' }
               <div className="form-group">
                 <label htmlFor="email">User Name</label>
-                <input id="email" name="email" className="form-control" type="text" value={this.state.email} onChange={this.handleChange}/>
+                <input id="email" name="email" className="form-control" type="text" value={this.state.email} onChange={this.handleChange} disabled={this.state.userType === 'admin' ? true : false} />
               </div>
               <div className="form-group">
                 <label htmlFor="pwd">Password</label>

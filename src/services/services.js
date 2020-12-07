@@ -19,6 +19,9 @@ const services = {
   getPublishers: function() {
   	return axios.get(appConfig.httpUrl + appConfig.publishersApi.get);
   },
+  getDashboardData: function() {
+    return axios.get(appConfig.httpUrl + appConfig.dashboardApi.get);
+  },
   getUserInfo: function() {
     return JSON.parse(localStorage.getItem('userInfo'));
   }

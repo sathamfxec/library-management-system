@@ -44,6 +44,9 @@ const appConfig = {
 	adminApprovalApi: {
 		approve: '/approve-lend-request',
 		reject: '/reject-lend-request'
+	},
+	dashboardApi: {
+		get: '/dashboard-data'
 	}
 }
 

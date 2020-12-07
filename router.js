@@ -163,8 +163,21 @@ router.post('/login', function(req, res) {
 });
 /*--Login API Ends*/
 
-/*--Books API Start--*/
+/*--Dashboard API Start--*/
+router.get('/dashboard-data', function(req, res) {
+	let dashboardData = {
+		books: booksTable.length,
+		users: usersTable.length,
+		authors: authorsTable.length,
+		publishers: publishersTable.length
+	}
+	res.status(200).send({
+		dashboardData: dashboardData
+	});
+});
+/*--Dashboard API Ends--*/
 
+/*--Books API Start--*/
 //API - To get all books
 router.get('/books', function(req, res) {
 	res.status(200).send({
