@@ -149,7 +149,7 @@ class Publisher extends React.Component {
 		const userInfo = services.getUserInfo();
 		return(<React.Fragment>
 			<Sidebar />
-			<div className="container" data-testid="Author">
+			<div className="container" data-testid="Publisher">
 				<div className="row">
 					<div className="col-sm-12">
 						<label className="col-sm-12 welcome">Welcome {userInfo.name}</label>
@@ -191,11 +191,11 @@ class Publisher extends React.Component {
 						{this.state.update === false ? <h3>Create Publisher</h3> : <h3>Update Publisher</h3>}
 						<form onSubmit={this.submitForm}>
 							<div className="form-group">
-								<label htmlFor="name">Author Name <span className="mandatory">*</span></label>
+								<label htmlFor="name">Publisher Name <span className="mandatory">*</span></label>
 								<input id="name" name="name" className="form-control defaultFS" type="text" value={this.state.name} onChange={this.handleChange} />
 							</div>
 							<div className="form-group">
-								<label htmlFor="email">Author Email <span className="mandatory">*</span></label>
+								<label htmlFor="email">Publisher Email <span className="mandatory">*</span></label>
 								<input id="email" name="email" className="form-control defaultFS" type="text" value={this.state.email} onChange={this.handleChange} disabled={this.state.update} />
 							</div>
 							<div className="form-group flex-sb">
