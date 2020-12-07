@@ -172,7 +172,7 @@ class Book extends React.Component {
 	          			: ''}
 					</div>
 					<div className="col-sm-8">
-						<table className={`${styles.table} ${"table"}`}>
+						<table className={`${styles.table} ${"table"} ${"col-sm-11"}`}>
 						    <thead>
 						      <tr>
 						        <th>Name</th>

@@ -56,7 +56,7 @@ class User extends React.Component {
 		URL.then(response => {
 			if(response.data.id !== 0) {
 				this.setState({
-					userList: response.data.userList,
+					userList: this.filterData(response.data.userList),
 					message: {
 						class: 'success',
 						text: response.data.message
@@ -121,11 +121,19 @@ class User extends React.Component {
 			}
   		});
   	} 
+  	/*
+    	Method to clear all state values
+  	*/
+  	filterData = (val) => {
+		return val.filter(data => (
+			data.userType !== 'admin'
+		));
+  	}
 	componentDidMount() {
 		services.getUsers()
 		.then(result => {
 			this.setState({
-				userList: result.data.data
+				userList: this.filterData(result.data.data)
 			});
 		})
 		.catch(error => {
@@ -150,7 +158,7 @@ class User extends React.Component {
 	          			: ''}
 					</div>
 					<div className="col-sm-8">
-						<table className={`${styles.table} ${"table"}`}>
+						<table className={`${styles.table} ${"table"} ${"col-sm-10"}`}>
 						    <thead>
 						      <tr>
 						        <th>Name</th>
@@ -159,15 +167,21 @@ class User extends React.Component {
 						      </tr>
 						    </thead>
 						    <tbody>
-						      {this.state.userList.map(user => { 
-						      	return (user.userType !== 'admin' ? <tr key={Math.random()}>
-							        <td>{user.name}</td>
-							        <td>{user.email}</td>
-							        <td>
-							        	<button className={`${styles.marginR} ${'btn btn-info'}`} onClick={() => this.editUser(user)}>Edit</button>
-							        	<button className="btn btn-danger" onClick={() => this.deleteUser(user.id)}>Delete</button>
-							        </td>
-							      </tr> : '');
+						    {this.state.userList.length === 0 ?
+							  <tr><td colSpan="5" className={'txtCenter'}>No records found</td></tr> :
+						      this.state.userList.map(user => {
+						      	let htmls;
+						      	if(user.userType !== 'admin') {
+									htmls = (<tr key={Math.random()}>
+										<td>{user.name}</td>
+										<td>{user.email}</td>
+										<td>
+										<button className={`${styles.marginR} ${'btn btn-info'}`} onClick={() => this.editUser(user)}>Edit</button>
+										<button className="btn btn-danger" onClick={() => this.deleteUser(user.id)}>Delete</button>
+										</td>
+									</tr>);
+						      	}
+						      	return htmls;
 						      })}
 						    </tbody>
 						</table>

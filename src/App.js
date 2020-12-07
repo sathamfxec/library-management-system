@@ -13,7 +13,11 @@ class App extends React.Component {
     this.state = {
       email: 'admin@gmail.com',
       pwd: '',
-      userType: 'admin'
+      userType: 'admin',
+      message: {
+        class: '',
+        text: ''
+      }
     };
   }
   /*
@@ -22,26 +26,58 @@ class App extends React.Component {
   submitForm = (event) => {
     event.preventDefault();
     if(this.state.email !== '' && this.state.pwd !== '') {
-      axios.post(appConfig.httpUrl + appConfig.loginApi.post, this.state)
-      .then(response => {
-        let userType = response.data.data;
-        localStorage.setItem('userInfo', JSON.stringify(response.data.data));
-        localStorage.setItem('isAuth', true);
-        axios.all([services.getAuthors(), services.getPublishers()])
-        .then(axios.spread((...response) => {
-          localStorage.setItem('authors', JSON.stringify(response[0].data.data));
-          localStorage.setItem('publishers', JSON.stringify(response[1].data.data));
-          this.props.updateMovies();
-          (userType.userType === 'admin') 
-          ? this.props.history.push("/book") 
-          : this.props.history.push("/book-request");
-        }));
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      const validateEmail = () => {
+        let pattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        return pattern.test(this.state.email);
+      }
+      if(validateEmail()) {
+        axios.post(appConfig.httpUrl + appConfig.loginApi.post, this.state)
+        .then(response => {
+          if(response.data.status === 1) {
+            let userType = response.data.data;
+            localStorage.setItem('userInfo', JSON.stringify(response.data.data));
+            localStorage.setItem('isAuth', true);
+            axios.all([services.getAuthors(), services.getPublishers()])
+            .then(axios.spread((...response) => {
+              localStorage.setItem('authors', JSON.stringify(response[0].data.data));
+              localStorage.setItem('publishers', JSON.stringify(response[1].data.data));
+              this.props.updateMovies();
+              (userType.userType === 'admin') 
+              ? this.props.history.push("/dashboard") 
+              : this.props.history.push("/book-request");
+            }));
+          } else {
+            this.setState({
+              message: {
+                class: 'error',
+                text: response.data.message
+              }
+            });
+          }
+        })
+        .catch(error => {
+          this.setState({
+            message: {
+              class: 'error',
+              text: error
+            }
+          });
+        });
+      } else {
+        this.setState({
+          message: {
+            class: 'error',
+            text: 'Email not valid'
+          }
+        });
+      }
     } else {
-      console.log('Fill all fields');
+      this.setState({
+        message: {
+          class: 'error',
+          text: 'Fill all fields'
+        }
+      });
     }
   }
   /*
@@ -52,7 +88,12 @@ class App extends React.Component {
     let email = (data === 'admin') ? 'admin@gmail.com' : '';
     this.setState({
       email: email,
-      userType: data
+      pwd: '',
+      userType: data,
+      message: {
+        class: '',
+        text: ''
+      }
     });
   }
   /*
@@ -85,12 +126,17 @@ class App extends React.Component {
                 <label htmlFor="pwd">Password</label>
                 <input id="pwd" name="pwd" className="form-control" type="password" value={this.state.pwd} onChange={this.handleChange} />
               </div>
-              <div className="form-group flex-sb marginBZero">
+              <div className="form-group flex-sb">
                   {this.state.userType !== 'admin' ?
                   <a className="defaultFS hLink" onClick={(event) => this.userType(event, 'admin')}>Goto Admin Login</a>
                   : <a className="defaultFS hLink" onClick={(event) => this.userType(event, 'user')}>Goto User Login</a>}
                 <button className="btn btn-primary" type="submit">Submit</button>
               </div>
+              {this.state.message.class !== '' ?
+              <div className="form-group txtRight marginBZero">
+                <label className={this.state.message.class}>{this.state.message.text}</label>
+              </div>
+              : ''}
             </div>
           </form>
         </div>

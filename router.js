@@ -152,11 +152,14 @@ router.post('/login', function(req, res) {
 		return val.email == req.body.email && val.pwd == req.body.pwd;
 	});
 	if(chkDupliRec.length === 0) {
-		res.status(401).send({
-			data: 'Unauthorized'
+		res.status(200).send({
+			status: 0,
+			data: [],
+			message: 'Unauthorized, provide valid details.'
 		});
 	} else {
 		res.status(200).send({
+			status: 1,
 			data: chkDupliRec[0]
 		});
 	}

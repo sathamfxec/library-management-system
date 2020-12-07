@@ -150,7 +150,7 @@ class Author extends React.Component {
 	          			: ''}
 					</div>
 					<div className="col-sm-8">
-						<table className={`${styles.table} ${"table"}`}>
+						<table className={`${styles.table} ${"table"} ${"col-sm-10"}`}>
 						    <thead>
 						      <tr>
 						        <th>Name</th>
